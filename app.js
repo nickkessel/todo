@@ -23,11 +23,18 @@ class Todo_Class {
   }
 
   done_undone(x){
-
+    const selectedTodoIndex = todoObjectList.findIndex((item)=> item.id == x);
+    console.log(todoObjectList[selectedTodoIndex].isDone);
+    todoObjectList[selectedTodoIndex].isDone == false ? todoObjectList[selectedTodoIndex].isDone = true : todoObjectList[selectedTodoIndex].isDone = false;
+    this.display();
   }
 
-  deleteElement(x){
+  deleteElement(z){
+    const selectedDelIndex = todoObjectList.findIndex((item) => item.id == z);
 
+    todoObjectList.splice(selectedDelIndex, 1);
+
+    this.display();
   }
 
   display(){
@@ -43,9 +50,23 @@ class Todo_Class {
       delBtn.classList.add("far", "fa-trash-alt");
 
       liElement.appendChild(delBtn);
-      
-    })
 
+      delBtn.addEventListener("click", function(e) {
+        const deleteId = e.target.getAttribute("data-id");
+        myTodoList.deleteElement(deleteId);
+      })
+
+      liElement.addEventListener("click", function(e) {
+        const selectedId = e.target.getAttribute("data-id")
+        myTodoList.done_undone(selectedId);
+      })
+
+      if(object_item.isDone) {
+        liElement.classList.add("checked");
+      }
+
+      this.ulElement.appendChild(liElement);
+    })
   }
 }
 
